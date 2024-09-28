@@ -8,17 +8,17 @@ interface Props {
     itemAmount: number;
     totalPrice: number;
     removeItem: () => void;
-    key?: number;
+    key: number;
 }
 
-const AddedItems: React.FC<Props> = ({itemName, itemPrice, itemAmount, removeItem, key}) => {
+const AddedItems: React.FC<Props> = ({itemName, itemPrice, itemAmount, removeItem}) => {
     const totalItemPrice = itemPrice * itemAmount;
     return (
         <div className="added-item">
             <h3 className="item-title">{itemName}</h3>
             <span className="item-ammount">× {itemAmount}</span>
             <span className="item-price">{totalItemPrice} KGS</span>
-            <DeleteItemBtn onDeleteItem={removeItem}/>
+            <DeleteItemBtn onDeleteItem={removeItem} />
         </div>
     );
 };

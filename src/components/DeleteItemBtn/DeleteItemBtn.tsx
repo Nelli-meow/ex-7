@@ -2,7 +2,7 @@ import * as React from 'react';
 import './DeleteItemBtn.css';
 
 interface Props {
-    onDeleteItem: () => void;
+    onDeleteItem: () => void,
 }
 
 const DeleteItemBtn: React.FC<Props> = ({onDeleteItem}) => {
