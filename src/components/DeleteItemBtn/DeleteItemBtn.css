@@ -1,0 +1,8 @@
+.delete-item-btn {
+    font-size: 40px;
+    color: red;
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: auto;
+}
