@@ -1,35 +1,100 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import Items from "./components/Items/Items.tsx";
+import * as React from "react";
+import AddedItems from "./components/AddedItems/AddedItems.tsx";
+import drinkImage from "./assets/free-icon-drinks-665885.png";
+import foodImage from "./assets/free-icon-dinner-272186.png";
 
-function App() {
-  const [count, setCount] = useState(0)
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+const App: React.FC = () => {
+    const [addedItems, setAddedItems] = useState([]);
+
+    const itemsFood  = [
+        {name: 'Hamburger', price: 80, image: foodImage},
+        {name: 'Cheeseburger', price: 90,image: foodImage},
+        {name: 'Fries', price: 45,image: foodImage},
+    ];
+
+    const itemsDrinks = [
+        {name: 'Coffee', price: 70,image: drinkImage},
+        {name: 'Tea', price: 50,image: drinkImage},
+        {name: 'Cola', price: 40,image: drinkImage},
+    ];
+
+
+    const addItem = (item: { name: string, price: number }) => {
+        let itemExists = false;
+
+        const updatedItems = addedItems.map((addedItem) => {
+            if (addedItem.name === item.name) {
+                itemExists = true;
+                return { ...addedItem, amount: addedItem.amount += 1 };
+            }
+            return addedItem;
+        });
+
+        if (!itemExists) {
+            setAddedItems([...addedItems, { name: item.name, price: item.price, amount: 1 }]);
+        } else {
+            setAddedItems(updatedItems);
+        }
+    };
+
+    const removeItem = (itemName: string) => {
+        const filteredItems = addedItems.filter((item) => item.name !== itemName);
+        setAddedItems(filteredItems);
+    };
+
+    const totalPrice = addedItems.reduce((acc, item) => acc + item.price * item.amount, 0);
+
+    return (
+        <>
+            <div className="App-container">
+                <div className="order-details">
+                    {addedItems.length === 0 ? (
+                        <span>Order is empty! Please add some items!</span>
+                    ) : (
+                        <>
+                            {addedItems.map((item, index) => (
+                                <AddedItems
+                                    key={index}
+                                    itemName={item.name}
+                                    itemPrice={item.price}
+                                    itemAmount={item.amount}
+                                    totalPrice={totalPrice}
+                                    removeItem={() => removeItem(item.name)}
+                                />
+                            ))}
+                            <h3>Total Price: {totalPrice} KGS</h3>
+                        </>
+                    )}
+                </div>
+                <div className="add-items">
+                    <div className="food-items">
+                        {itemsFood.map((item, index) => (
+                            <Items
+                                key={index}
+                                addItem={() => addItem(item)}
+                                itemName={item.name}
+                                itemPrice={item.price}
+                                itemImage={item.image as string}/>
+                        ))}
+                    </div>
+                    <div className="drinks-items">
+                        {itemsDrinks.map((item, index) => (
+                            <Items
+                                key={index}
+                                addItem={() => addItem(item)}
+                                itemName={item.name}
+                                itemPrice={item.price}
+                                itemImage={item.image as string}/>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </>
+    )
+};
 
 export default App
