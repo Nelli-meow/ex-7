@@ -1,0 +1,20 @@
+.item {
+    border: 1px solid black;
+    border-radius: 4px;
+    padding: 16px;
+    cursor: pointer;
+    background-color: white;
+    margin-bottom: 16px;
+}
+
+.item-title {
+    font-size: 25px;
+}
+
+.item-price {
+    font-size: 20px;
+}
+
+.item-img {
+    width: 25%;
+}
